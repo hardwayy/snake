@@ -1,0 +1,67 @@
+/* Impostazioni generali della pagina */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    /* Non serve più flex sul body se usiamo il canvas di sfondo a tutta pagina,
+       ma qui lo lasciamo per centrare eventualmente il contenuto interno */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #3f6ca4; /* colore di fallback se il canvas di sfondo non viene disegnato */
+    position: relative;
+}
+
+/* Canvas di sfondo: copre l'intera viewport */
+#background {
+    position: fixed;    /* rimane fisso rispetto alla viewport */
+    top: 0;
+    left: 0;
+    width: 100vw;       /* 100% della larghezza della viewport */
+    height: 100vh;      /* 100% dell'altezza della viewport */
+    z-index: -1;
+    color:black;
+}
+
+/* Wrapper per eventuale contenuto aggiuntivo */
+#wrapper {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+/* Contenitore del gioco */
+#game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    left: 0;
+    z-index: 1;  /* sopra il canvas di sfondo */
+}
+
+/* Canvas del gioco */
+#game-canvas {
+    background-color: #03326B;
+    display: block; /* evita che venga trattato come elemento inline */
+    margin-bottom: 20px;
+    border: 2px solid #fff;
+}
+
+/* Pulsante di avvio */
+#playButton {
+    background-color: #0f0;
+    color: #000;
+    font-size: 20px;
+    font-weight: bold;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: 1s ease;
+}
+
+#playButton:hover {
+    background-color: #0c0;
+}
