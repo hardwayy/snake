@@ -38,31 +38,30 @@ function createFood() {
 }
 const bgCanvas = document.getElementById("background");
 const bgCtx = bgCanvas.getContext("2d");
-function createStar() {
-    let starX, starY;
-    do {
-        starX = Math.floor(Math.random() * gridWidth);
-        starY = Math.floor(Math.random() * gridHeight);
-    } while (starX < 0 || starY < 0 );
-    starX = Math.min(starX, bgCtx);
-    starY = Math.min(starY,bgCtx);
 
-    bgCtx.fillRect(starX, starY, bgCanvas.width,  bgCanvas.width);
-    return { x: starX, y: starY };
+// Funzione per disegnare una singola "stella" (piccolo punto bianco)
+function createStar() {
+    let starX = Math.floor(Math.random() * bgCanvas.width);
+    let starY = Math.floor(Math.random() * bgCanvas.height);
+    let starSize = 2; // dimensione della stella
+    bgCtx.fillStyle = "white";
+    bgCtx.fillRect(starX, starY, starSize, starSize);
 }
 
-
-window.addEventListener("load", function() {
-    let star=createStar();
+// Al caricamento della finestra, dimensiona il canvas di sfondo e disegna le stelle
+window.addEventListener("load", function () {
+    // Imposta le dimensioni del canvas di sfondo
     bgCanvas.width = window.innerWidth;
     bgCanvas.height = window.innerHeight;
 
-    // Esempio: disegna uno sfondo semplice
+    // Disegna lo sfondo nero
     bgCtx.fillStyle = "black";
-    for(let  i=0;i<100;i++){
+    bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
+
+    // Disegna 100 stelle
+    for (let i = 0; i < 400; i++) {
         createStar();
     }
-    bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
 });
 
 function speedUp(addSpeed){ //Ogni 4 punti aumenta (tecnicamente diminuisce) del valore passato la velocità del gioco
@@ -251,10 +250,11 @@ function resetGame() {
         { x: 0, y: 0 },
     ];
     direction = "down";
+    newDirection = "down";
     food = createFood();
     clearInterval(gameLoop);
+    gameLoop = null;
     score = 0;
-
     gameSpeed = 150;
     gameOver = false;
     canvasSize = 400;
@@ -262,13 +262,18 @@ function resetGame() {
     canvas.height = canvasSize;
     gridWidth = canvas.width / gridSize;
     gridHeight = canvas.height / gridSize;
-    gameLoop = null;
-    id = null;
+    if (moveIntervalId) {
+        clearInterval(moveIntervalId);
+    }
     isMoving = false;
     pos = 0;
     moveDirection = 1;
     firstMove = true;
     lastScore = undefined;
+
+    // Centra il container del gioco nella finestra
+    const container = document.getElementById("game-container");
+    container.style.left = ((window.innerWidth - container.offsetWidth) / 2) + "px";
 }
 
 // Collega il pulsante all'evento di avvio
